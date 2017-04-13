@@ -28,7 +28,7 @@ namespace Klak.Wiring
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(FloatAnimation))]
-    public class FloatAnimationEditor : Editor
+    public class FloatAnimationEditor : NodeBaseEditor
     {
         SerializedProperty _curve;
         SerializedProperty _speed;
@@ -54,6 +54,18 @@ namespace Klak.Wiring
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(_floatEvent);
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        public override void OnNodeGUI()
+        {
+            base.OnNodeGUI();
+            serializedObject.Update();
+
+            EditorGUILayout.PropertyField(_curve);
+            EditorGUILayout.PropertyField(_speed);
+            EditorGUILayout.PropertyField(_playOnStart);
 
             serializedObject.ApplyModifiedProperties();
         }

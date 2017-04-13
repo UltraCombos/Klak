@@ -28,7 +28,7 @@ namespace Klak.Wiring
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(ButtonInput))]
-    public class ButtonInputEditor : Editor
+    public class ButtonInputEditor : NodeBaseEditor
     {
         SerializedProperty _buttonName;
         SerializedProperty _offValue;
@@ -69,6 +69,25 @@ namespace Klak.Wiring
             EditorGUILayout.PropertyField(_buttonDownEvent);
             EditorGUILayout.PropertyField(_buttonUpEvent);
             EditorGUILayout.PropertyField(_valueEvent);
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        public override void OnNodeGUI()
+        {
+            base.OnNodeGUI();
+            serializedObject.Update();
+
+            EditorGUILayout.PropertyField(_buttonName);
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(_offValue);
+            EditorGUILayout.PropertyField(_onValue);
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(_interpolator);
 
             serializedObject.ApplyModifiedProperties();
         }

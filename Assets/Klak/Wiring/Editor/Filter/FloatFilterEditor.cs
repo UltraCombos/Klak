@@ -28,7 +28,7 @@ namespace Klak.Wiring
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(FloatFilter))]
-    public class FloatFilterEditor : Editor
+    public class FloatFilterEditor : NodeBaseEditor
     {
         SerializedProperty _responseCurve;
         SerializedProperty _interpolator;
@@ -71,6 +71,35 @@ namespace Klak.Wiring
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(_outputEvent);
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        public override void OnNodeGUI()
+        {
+            base.OnNodeGUI();
+            serializedObject.Update();
+
+            EditorGUILayout.PropertyField(_responseCurve);
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(_amplitude);
+            EditorGUILayout.PropertyField(_bias);
+
+            /*
+            EditorGUILayout.Space();
+            
+            EditorGUILayout.HelpBox(
+                "Output = Response(Input) * Amplitude + Bias\n" +
+                "Output value will be interpolated with the setting below.",
+                MessageType.None, true
+            );
+            */
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(_interpolator);
 
             serializedObject.ApplyModifiedProperties();
         }

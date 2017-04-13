@@ -167,7 +167,11 @@ namespace Klak.Wiring.Patcher
             foreach (var slot in node.inputSlots)
                 LayoutSlot(slot, slot.title, false, true, true, Styles.pinIn);
 
+            EditorGUILayout.Space();
+
             node.NodeUI(this);
+
+            EditorGUILayout.Space();
 
             foreach (var slot in node.outputSlots)
             {

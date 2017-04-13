@@ -28,7 +28,7 @@ namespace Klak.Wiring
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(ColorRamp))]
-    public class ColorRampEditor : Editor
+    public class ColorRampEditor : NodeBaseEditor
     {
         SerializedProperty _colorMode;
         SerializedProperty _gradient;
@@ -60,6 +60,24 @@ namespace Klak.Wiring
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(_colorEvent);
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        public override void OnNodeGUI()
+        {
+            base.OnNodeGUI();
+            serializedObject.Update();
+
+            EditorGUILayout.PropertyField(_colorMode);
+
+            if (_colorMode.hasMultipleDifferentValues ||
+                _colorMode.enumValueIndex == (int)ColorRamp.ColorMode.Gradient)
+                EditorGUILayout.PropertyField(_gradient);
+
+            if (_colorMode.hasMultipleDifferentValues ||
+                _colorMode.enumValueIndex == (int)ColorRamp.ColorMode.ColorArray)
+                DrawColorArray();
 
             serializedObject.ApplyModifiedProperties();
         }

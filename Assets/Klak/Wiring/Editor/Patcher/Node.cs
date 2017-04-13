@@ -88,6 +88,25 @@ namespace Klak.Wiring.Patcher
             }
         }
 
+        bool m_showAdditionalInfo = true;
+        public override void NodeUI(UnityEditor.Graphs.GraphGUI host)
+        {
+            base.NodeUI(host);
+            Editor editor = Editor.CreateEditor(_runtimeInstance);
+            m_showAdditionalInfo = EditorGUILayout.ToggleLeft("Info", m_showAdditionalInfo);
+            if (m_showAdditionalInfo)
+            {
+                NodeBaseEditor nEditor = editor as NodeBaseEditor;
+                if (nEditor == null)
+                {
+                    EditorGUILayout.HelpBox("Please Implement OnNodeGUI in Editor.", MessageType.None, true);
+                    editor.OnInspectorGUI();
+                }
+                else
+                    nEditor.OnNodeGUI();
+            }
+            Dirty();
+        }
         #endregion
 
         #region Private members
